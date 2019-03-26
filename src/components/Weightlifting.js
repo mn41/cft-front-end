@@ -16,7 +16,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { URL_STRING } from '../config.js'
 import WorkoutForm from './WorkoutForm'
-import { renderByOrder } from 'recharts/lib/util/ReactUtils';
+import shortid from 'shortid';
 
 const styles = theme => ({
     root: {
@@ -39,7 +39,13 @@ class Weightlifting extends React.Component {
             searchDate: moment(new Date()).format("YYYY-MM-DD"),
             isFormOpen: false,
             formDate: moment(new Date()).format("YYYY-MM-DD"),
-            exercises: []
+            exercises: [{
+                id: shortid.generate(),
+                exerciseName: '',
+                weight: '',
+                reps:'',
+                sets:'',
+            }]
         }
     }
 
@@ -82,6 +88,73 @@ class Weightlifting extends React.Component {
     handleFormClose = () => {
         this.setState({isFormOpen: false})
     }
+
+    handleFormDateChange = (formDate) => {
+        this.setState({formDate: formDate})
+    }
+
+    onClearExercises = () => {
+        this.setState({ 
+            exercises: [{
+                id: shortid.generate(),
+                exerciseName: '',
+                weight: '',
+                reps:'',
+                sets:'',
+            }]
+         });
+    };
+
+    onAddExercise = () => {
+        this.setState(state => {
+          const exercises = [...state.exercises,
+            {
+                id: shortid.generate(),
+                exerciseName: '',
+                weight: '',
+                reps:'',
+                sets:'',
+            }];
+    
+          return {
+            exercises,
+          };
+        });
+    };
+
+    onUpdateExercise = (id, attribute) => {
+        console.log(id)
+        var index = this.state.exercises.findIndex(exercise => exercise.id === id);
+        console.log(index)
+          this.setState(state => {
+            const exercises = [
+               ...state.exercises.slice(0,index),
+               Object.assign({}, state.exercises[index], attribute),
+               ...state.exercises.slice(index+1)
+            ];
+
+            return {
+                exercises,
+              };
+          });
+    }
+
+    onDeleteExercise = id => {
+        if(this.state.exercises.length > 1){
+
+        this.setState(state => {
+          const exercises = state.exercises.filter(exercise => exercise.id !== id);
+    
+          return {
+            exercises,
+          };
+        });
+      } else {
+          this.onClearExercises()
+      }
+    };
+
+
     
     render() {
         const { classes } = this.props;
@@ -149,7 +222,7 @@ class Weightlifting extends React.Component {
                 </Grid>
                 <WeightliftingTable currentDate={this.state.currentDate} currentWorkout={this.state.currentWorkout}/>
             </Grid>
-            <WorkoutForm isFormOpen={this.state.isFormOpen} handleFormClose={this.handleFormClose} formDate={this.state.formDate} setFormDate={this.setFormDate} title={"Add Workout"}/>
+            <WorkoutForm isFormOpen={this.state.isFormOpen} onFormClose={this.handleFormClose} formDate={this.state.formDate} onFormDateChange={this.handleFormDateChange} onAddExercise={this.onAddExercise} onDeleteExercise={this.onDeleteExercise} onUpdateExercise={this.onUpdateExercise} exercises={this.state.exercises} title={"Add Workout"}/>
         </div>
         );
     }
