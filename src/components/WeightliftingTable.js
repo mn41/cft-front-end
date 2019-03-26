@@ -7,6 +7,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography';
+import moment from 'moment'
 
 const styles = theme => ({
   root: {
@@ -35,9 +38,16 @@ const rows = [
 
 function WeightliftingTable(props) {
   const { classes } = props;
+  const currentWorkout = props.currentWorkout
+  const currentDate = props.currentDate
 
   return (
     <Paper className={classes.root}>
+      <Toolbar>
+        <Typography variant="h6" id="tableTitle">
+            Workout for {(moment(currentDate).format("MMMM Do, YYYY"))}
+        </Typography>
+      </Toolbar>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -48,17 +58,20 @@ function WeightliftingTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+        {(typeof currentWorkout == 'undefined' || !("exercises" in currentWorkout)) ||
+
+          currentWorkout.exercises.map(row => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                {row.name}
+              <div>{row.exerciseName}</div>
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
+              <TableCell align="right"><div>{row.sets}</div></TableCell>
+              <TableCell align="right"><div>{row.reps}</div></TableCell>
+              <TableCell align="right"><div>{row.weight}</div></TableCell>
             </TableRow>
           ))}
         </TableBody>
+        
       </Table>
     </Paper>
   );

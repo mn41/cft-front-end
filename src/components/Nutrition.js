@@ -42,7 +42,7 @@ function Nutrition(props) {
             <Grid item>
                 <Button variant="contained" size="large" color="primary" className={classes.button} component={NavLink} to="/addNutrition">  
                     <EditIcon className={classes.editIcon} />
-                    Edit Nutrition Entry
+                    &nbsp; Edit Nutrition Entry
                 </Button>
                 <div className={classes.tableContainer}>
                 </div>
@@ -53,7 +53,7 @@ function Nutrition(props) {
             <Grid item>
                 <Button variant="contained" size="large" color="primary" className={classes.button} component={NavLink} to="/addNutrition ">  
                     <AddIcon className={classes.addIcon} />
-                    New Nutrition Entry
+                    &nbsp; New Nutrition Entry
                 </Button>
                 <div className={classes.tableContainer}>
                 </div>

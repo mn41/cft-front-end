@@ -8,7 +8,6 @@ import About from './components/About.js'
 import Home from './components/Home.js'
 import './App.css';
 import Weightlifting from './components/Weightlifting.js';
-import AddWeightlifting from './components/AddWeightlifting.js';
 import Nutrition from './components/Nutrition.js';
 import WeightMeasurement from './components/WeightMeasurement.js';
 
@@ -53,7 +52,6 @@ class App extends React.Component {
               <Route path="/weightlifting" render={props => <Weightlifting {...props} id={this.state.id} />} />
               <Route path="/nutrition" component={Nutrition} />
               <Route path="/weightMeasurement" render={props => <WeightMeasurement {...props} id={this.state.id} />} />
-              <Route path="/addWeightlifting" component={AddWeightlifting} />
               </main>
             </div>
           </div>

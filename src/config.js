@@ -1,0 +1,1 @@
+export const URL_STRING = 'http://localhost:9966/completefitnesstracker/api/'

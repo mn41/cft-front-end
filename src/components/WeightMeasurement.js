@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from 'react'
+import React from 'react'
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -13,6 +13,8 @@ import TextField from '@material-ui/core/TextField';
 import WeightMeasurementGraph from './WeightMeasurementGraph';
 import moment from 'moment';
 import axios from 'axios'
+import { URL_STRING } from '../config.js'
+
 
 
 
@@ -28,55 +30,63 @@ const styles = theme => ({
     },
   });
 
-function WeightMeasurement(props) {
-    const { classes } = props;
-    const [newMeasurement, setNewMeasurement] = useState(0);
-    const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
-    const [currentMeasurements, setCurrentMeasurements] = useState([]);
-    const athleteId = props.id
+class WeightMeasurement extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            newMeasurement: 0,
+            date: moment(new Date()).format("YYYY-MM-DD"),
+            currentMeasurements: [],
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios(
-              'http://localhost:9966/completefitnesstracker/api/weightMeasurements/athlete/' + athleteId,
-            );
+        };
+
+      };
+
+    componentDidMount() {
+
+            fetch(URL_STRING + 'weightMeasurements/athlete/' + this.props.id)
+            .then(res => res.json())
+            .then(json => this.setState({currentMeasurements: json}));
+           
       
-            setCurrentMeasurements(result.data)
-          };
-      
-        fetchData();
-    }, [currentMeasurements]);
+    }
 
-    const addWeightMeasurement = () => {
-        if (newMeasurement > 0){
-            const fetchData = async () => {
-
-            const result = await axios.post(
-                'http://localhost:9966/completefitnesstracker/api/weightMeasurements/add/' + athleteId,
-                { 
-                    weight: newMeasurement,
-                    date: moment(date).format("YYYY/MM/DD")
-                }
-            );
+    addWeightMeasurement = () => {
+        if (this.state.newMeasurement > 0){
 
             const measurement = {
-                weight: newMeasurement,
-                date: moment(date).format("YYYY/MM/DD")
-            }
+                weight: this.state.newMeasurement,
+                date: moment(this.state.date).format("YYYY/MM/DD")
+            } 
 
-            if (result.status == '201'){
-                setCurrentMeasurements([{
-                    ...currentMeasurements,
-                    measurement
-                  }]);
-            }
+            fetch(URL_STRING + 'weightMeasurements/add/' + this.props.id, {
+                method: 'post',
+                body: JSON.stringify({
+                    weight: new Number(this.state.newMeasurement),
+                    date: moment(this.state.date).format("YYYY/MM/DD")
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                    // "Content-Type": "application/x-www-form-urlencoded",
+                },
+            })
+            .then((res) => {
+
+
+                if (res.status == '201'){
+                    const newMeasurements = this.state.currentMeasurements.concat(measurement)
+                    this.setState({ 
+                        currentMeasurements: newMeasurements
+                })
+            }});
         };
-        fetchData()
-        }
 
     }
-    
-    return (
+    render () {
+
+        const { classes } = this.props;
+
+        return (
         <div className={classes.WeightMeasurement}>
         <Grid container spacing={24}>
             <Grid item xs>
@@ -87,14 +97,14 @@ function WeightMeasurement(props) {
         </Grid>
         <Divider/>
         <br/>
-        <Grid container spacing={24} justify="center" alignItems="center" height>
+        <Grid container spacing={24} justify="center" alignItems="center">
             <Grid item >
             <TextField
                 id="standard-name"
                 label="New Measurment"
                 className={classes.textField}
-                value={newMeasurement}
-                onChange={e => setNewMeasurement(e.target.value)}
+                value={this.state.newMeasurement}
+                onChange={e => this.setState({newMeasurement: e.target.value})}
                 margin="normal"
             />
             </Grid>
@@ -103,22 +113,23 @@ function WeightMeasurement(props) {
                 id="date"
                 type="date"
                 label="Date"
-                value={date}
+                value={this.state.date}
                 className={classes.textField}
-                onChange={e => setDate(e.target.value)}
+                onChange={e => this.setState({date: e.target.value})}
                 margin="normal"
             />
             </Grid>
             <Grid item>
-                <Button variant="contained" size="large" color="primary" className={classes.margin} onClick={addWeightMeasurement}>
+                <Button variant="contained" size="large" color="primary" className={classes.margin} onClick={this.addWeightMeasurement}>
                     Submit
                 </Button>
             </Grid>
         </Grid>
         <br/>
-        <WeightMeasurementGraph currentMeasurements={currentMeasurements}/>
+        <WeightMeasurementGraph currentMeasurements={this.state.currentMeasurements}/>
        </div>
     );
+    }
 }
 
 export default withStyles(styles)(WeightMeasurement);
