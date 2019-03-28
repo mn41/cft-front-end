@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     field: {
-        marginRight: theme.spacing.unit * 3 
+        marginRight: theme.spacing.unit * 3,
     },
     toolbar: theme.mixins.toolbar,
     content: {
@@ -21,14 +21,15 @@ const styles = theme => ({
 function ExerciseRow(props){
     
     const { classes } = props
-    
+
     return (
-        <Grid container spacing={0} justify="center" alignItems="center">
+        <div style={{width: 1000}}>
+           <Grid container spacing={0} justify="flex-start" alignItems="flex-end">
             <Grid item >
             <TextField
                 label="Exercise Name"
                 className={classes.field}
-                value={props.exerciseName}
+                value={props.exercise.exerciseName}
                 onChange={e => props.onUpdateExercise(props.exercise.id, {exerciseName: e.target.value})}
                 margin="normal"
             />
@@ -37,7 +38,7 @@ function ExerciseRow(props){
             <TextField
                 label="Sets"
                 className={classes.field}
-                value={props.sets}
+                value={props.exercise.sets}
                 onChange={e => props.onUpdateExercise(props.exercise.id, {sets: e.target.value})}
                 margin="normal"
             />
@@ -46,16 +47,16 @@ function ExerciseRow(props){
             <TextField
                 label="Reps"
                 className={classes.field}
-                value={props.reps}
+                value={props.exercise.reps}
                 onChange={e => props.onUpdateExercise(props.exercise.id, {reps: e.target.value})}
                 margin="normal"
             />
             </Grid>
             <Grid item >
             <TextField
-                label="Weight"
+                label="Weight (lbs.)"
                 className={classes.field}
-                value={props.weight}
+                value={props.exercise.weight}
                 onChange={e => props.onUpdateExercise(props.exercise.id, {weight: e.target.value})}
                 margin="normal"
             />
@@ -66,11 +67,12 @@ function ExerciseRow(props){
             </IconButton>
             </Grid>
             <Grid item>
-            <IconButton aria-label="Delete" className={classes.field} onClick={() => props.onDeleteExercise(props.exercise.id)}>
+            <IconButton aria-label="Delete" onClick={() => props.onDeleteExercise(props.exercise.id)}>
                 <DeleteIcon />
             </IconButton>
             </Grid>
-        </Grid>
+</Grid>
+            </div>
     )
 }
 

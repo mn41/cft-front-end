@@ -34,11 +34,14 @@ class Weightlifting extends React.Component {
     constructor(props){
         super(props)
         this.state = {
+            isLoading: false,
             currentWorkout: {},
             currentDate: moment(new Date()).format("YYYY-MM-DD"),
             searchDate: moment(new Date()).format("YYYY-MM-DD"),
             isFormOpen: false,
+            formType: "Add Workout",
             formDate: moment(new Date()).format("YYYY-MM-DD"),
+            formWorkoutName: '',
             exercises: [{
                 id: shortid.generate(),
                 exerciseName: '',
@@ -51,11 +54,11 @@ class Weightlifting extends React.Component {
 
     componentDidMount(){
 
-        var queryDate = moment(this.state.currentDate).format("YYYY/MM/DD")
-        fetch(URL_STRING + 'workout/dateBetween?startDate=' + queryDate + '&endDate=' + queryDate + '&athleteId=' + this.props.id)
+        fetch(URL_STRING + 'workout/recent/athlete/' + this.props.id)
         .then(res => res.json())
         .then(json => this.setState({
-            currentWorkout: (json.length > 0 ? json[0] : [])
+            currentWorkout: json[0],
+            currentDate: moment(json[0].date).format("YYYY-MM-DD")
         }));
 
     }
@@ -81,6 +84,29 @@ class Weightlifting extends React.Component {
 
     }
 
+    addWorkout = () => {
+        if(this.state.formType !== "Add Workout"){
+            this.setState({formType: "Add Workout"})
+            this.onClearExercises()
+        }
+        this.handleFormOpen()
+    }
+
+    editWorkout = () => {
+        this.setState({formType: "Edit Workout"})
+        this.setState({formDate: this.state.currentDate})
+        this.setState({formWorkoutName: this.state.currentWorkout.workoutName})
+        const exercises = this.state.currentWorkout.exercises.map((exercise) => {
+            var e = {...exercise, id: shortid.generate()}
+            return e
+        });
+
+        this.setState({
+            exercises: exercises
+        })
+        this.handleFormOpen()
+    }
+
     handleFormOpen = () => {
         this.setState({isFormOpen: true})
     }
@@ -90,6 +116,10 @@ class Weightlifting extends React.Component {
     }
 
     handleFormDateChange = (formDate) => {
+        this.setState({formDate: formDate})
+    }
+
+    handleFormWorkoutNameChange = (formDate) => {
         this.setState({formDate: formDate})
     }
 
@@ -123,9 +153,8 @@ class Weightlifting extends React.Component {
     };
 
     onUpdateExercise = (id, attribute) => {
-        console.log(id)
+        console.log(this.state.exercises)
         var index = this.state.exercises.findIndex(exercise => exercise.id === id);
-        console.log(index)
           this.setState(state => {
             const exercises = [
                ...state.exercises.slice(0,index),
@@ -153,6 +182,74 @@ class Weightlifting extends React.Component {
           this.onClearExercises()
       }
     };
+
+    onFormSubmit = () => {
+        this.setState({isLoading: true})
+
+        alert(this.state.isLoading)
+
+        if (this.state.formType == "Add Workout"){
+           fetch(URL_STRING + 'workout/add/' + this.props.id, {
+            method: 'post',
+            body: JSON.stringify({
+                workoutName: this.state.formWorkoutName,
+                category: "Weightlifting",
+                date: moment(this.state.formDate).format("YYYY/MM/DD"),
+                exercises: this.state.exercises.map(exercise => ({
+                    exerciseName: exercise.exerciseName,
+                    weight: parseFloat(exercise.weight),
+                    reps: parseFloat(exercise.reps),
+                    sets: parseFloat(exercise.sets),
+                }))
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            }
+           })
+           .then((res) => {
+               console.log(res.status)
+            if (res.status == '201'){
+                this.setState({ 
+                    searchDate: this.state.formDate
+                })
+                this.getWorkout()
+                this.onClearExercises()
+                this.setState({isFormOpen: false})
+            }});
+
+        } else {
+            fetch(URL_STRING + 'workout/' + this.state.currentWorkout.id, {
+                method: 'put',
+                body: JSON.stringify(
+                    {
+                        workoutName: this.state.formWorkoutName,
+                        category: "Weightlifting",
+                        date: moment(this.state.formDate).format("YYYY/MM/DD"),
+                        exercises: this.state.exercises.map(exercise => ({
+                            exerciseName: exercise.exerciseName,
+                            weight: parseFloat(exercise.weight),
+                            reps: parseFloat(exercise.reps),
+                            sets: parseFloat(exercise.sets),
+                        }))
+                    }
+                ),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+               })
+               .then((res) => {
+                if (res.status == '204'){
+                    this.setState({ 
+                        searchDate: this.state.formDate
+                    })
+                    this.getWorkout()
+                    this.setState({isFormOpen: false})
+                }});
+    
+        }
+        this.setState({isLoading: false})
+
+    }
 
 
     
@@ -182,7 +279,7 @@ class Weightlifting extends React.Component {
 
             :
                 <Grid item>
-                    <Button variant="contained" size="large" color="primary" className={classes.button} component={NavLink} to="/addWeightlifting">  
+                    <Button variant="contained" size="large" color="primary" className={classes.button} onClick={this.editWorkout}>  
                         <EditIcon className={classes.editIcon} />
                         &nbsp; Edit Workout
                     </Button>
@@ -213,7 +310,7 @@ class Weightlifting extends React.Component {
                     
                 </Grid>
                 <Grid item>
-                    <Button variant="contained" size="large" color="primary" className={classes.button} onClick={this.handleFormOpen}>  
+                    <Button variant="contained" size="large" color="primary" className={classes.button} onClick={this.addWorkout}>  
                         <AddIcon className={classes.addIcon} />
                         &nbsp; New Workout
                     </Button>
@@ -222,7 +319,7 @@ class Weightlifting extends React.Component {
                 </Grid>
                 <WeightliftingTable currentDate={this.state.currentDate} currentWorkout={this.state.currentWorkout}/>
             </Grid>
-            <WorkoutForm isFormOpen={this.state.isFormOpen} onFormClose={this.handleFormClose} formDate={this.state.formDate} onFormDateChange={this.handleFormDateChange} onAddExercise={this.onAddExercise} onDeleteExercise={this.onDeleteExercise} onUpdateExercise={this.onUpdateExercise} exercises={this.state.exercises} title={"Add Workout"}/>
+            <WorkoutForm isLoading={this.state.isLoading} isFormOpen={this.state.isFormOpen} onFormClose={this.handleFormClose} formDate={this.state.formDate} onFormDateChange={this.handleFormDateChange} formWorkoutName={this.state.formWorkoutName} onFormWorkoutNameChange={this.handleFormWorkoutNameChange} onAddExercise={this.onAddExercise} onDeleteExercise={this.onDeleteExercise} onUpdateExercise={this.onUpdateExercise} exercises={this.state.exercises} title={this.state.formType} onFormSubmit={this.onFormSubmit}/>
         </div>
         );
     }
