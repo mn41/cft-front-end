@@ -186,7 +186,6 @@ class Weightlifting extends React.Component {
     onFormSubmit = () => {
         this.setState({isLoading: true})
 
-        alert(this.state.isLoading)
 
         if (this.state.formType == "Add Workout"){
            fetch(URL_STRING + 'workout/add/' + this.props.id, {

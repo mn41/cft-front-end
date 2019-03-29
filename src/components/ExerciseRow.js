@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
     field: {
         marginRight: theme.spacing.unit * 3,
+        width: 150
     },
     toolbar: theme.mixins.toolbar,
     content: {
@@ -23,7 +24,7 @@ function ExerciseRow(props){
     const { classes } = props
 
     return (
-        <div style={{width: 1000}}>
+        <div style={{width: 800}}>
            <Grid container spacing={0} justify="flex-start" alignItems="flex-end">
             <Grid item >
             <TextField
