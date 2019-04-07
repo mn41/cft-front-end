@@ -81,7 +81,7 @@ class NutritionForm extends React.Component {
              </Grid>
         </Grid>
             {this.props.foods.map((food) =>
-              <FoodRow key={food.id} food={food} onAddFood={this.props.onAddFood} onDeleteFood={this.props.onDeleteFood} onUpdateFood={this.props.onUpdateFood}/>
+              <FoodRow key={food.shortID} food={food} onAddFood={this.props.onAddFood} onDeleteFood={this.props.onDeleteFood} onUpdateFood={this.props.onUpdateFood}/>
             )}
 
 

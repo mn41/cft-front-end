@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles';
 import Navigator from './components/Navigator.js';
 import TitleBar from './components/TitleBar';
 import { BrowserRouter as Router, Route} from "react-router-dom";
-import About from './components/About.js'
 import Home from './components/Home.js'
 import './App.css';
+import Cardio from "./components/cardio/Cardio.js"
 import Weightlifting from './components/Weightlifting.js';
 import NutritionEntry from './components/NutritionEntry.js';
 import WeightMeasurement from './components/WeightMeasurement.js';
@@ -48,7 +47,7 @@ class App extends React.Component {
               <main className={classes.content}>
               <div className={classes.toolbar} />
               <Route exact path="/" component={Home} />
-              <Route path="/about" component={About} />
+              <Route path="/cardio" render={props => <Cardio {...props} id={this.state.id} />} />
               <Route path="/weightlifting" render={props => <Weightlifting {...props} id={this.state.id} />} />
               <Route path="/nutrition" render={props => <NutritionEntry {...props} id={this.state.id} />} />
               <Route path="/weightMeasurement" render={props => <WeightMeasurement {...props} id={this.state.id} />} />

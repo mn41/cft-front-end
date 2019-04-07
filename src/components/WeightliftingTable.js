@@ -61,7 +61,7 @@ function WeightliftingTable(props) {
         {(typeof currentWorkout == 'undefined' || !("exercises" in currentWorkout)) ||
 
           currentWorkout.exercises.map(row => (
-            <TableRow key={row.id}>
+            <TableRow key={row.shortID}>
               <TableCell component="th" scope="row">
               <div>{row.exerciseName}</div>
               </TableCell>

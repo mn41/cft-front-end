@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Divider } from '@material-ui/core';
-import WeightliftingDate from './WeightliftingDate'
 import {NavLink} from "react-router-dom";
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -54,7 +53,7 @@ class Weightlifting extends React.Component {
 
     componentDidMount(){
 
-        fetch(URL_STRING + 'workout/recent/athlete/' + this.props.id)
+        fetch(URL_STRING + 'workout/recent/athlete/' + this.props.id + '?category=Weightlifting')
         .then(res => res.json())
         .then(json => this.setState({
             currentWorkout: json[0],
@@ -65,7 +64,7 @@ class Weightlifting extends React.Component {
 
     getWorkout = () => {
         var queryDate = moment(this.state.searchDate).format("YYYY/MM/DD")
-        fetch(URL_STRING + 'workout/dateBetween?startDate=' + queryDate + '&endDate=' + queryDate + '&athleteId=' + this.props.id)
+        fetch(URL_STRING + 'workout/dateBetween?startDate=' + queryDate + '&endDate=' + queryDate + '&athleteId=' + this.props.id + '&category=Weightlifting')
         .then(res => res.json())
         .then(json => this.setState({
             currentWorkout: (json.length > 0 ? json[0] : []),
@@ -75,7 +74,7 @@ class Weightlifting extends React.Component {
 
     loadRecentWorkout = () => {
        
-        fetch(URL_STRING + 'workout/recent/athlete/' + this.props.id)
+        fetch(URL_STRING + 'workout/recent/athlete/' + this.props.id + '?category=Weightlifting')
         .then(res => res.json())
         .then(json => this.setState({
             currentWorkout: json[0],
@@ -131,7 +130,8 @@ class Weightlifting extends React.Component {
                 weight: '',
                 reps:'',
                 sets:'',
-            }]
+            }],
+            formWorkoutName: ''
          });
     };
 

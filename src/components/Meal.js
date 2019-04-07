@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import  moment from 'moment'
 
 const styles = theme => ({
   root: {
@@ -40,13 +41,15 @@ const rows = [
 
 function Meal(props) {
   const { classes } = props;
+  const currentDate = props.currentDate;
+  const currentNutritionEntry = props.currentNutritionEntry;
 
   return (
 
     <Paper className={classes.root}>
       <Toolbar>
       <Typography variant="h6" id="tableTitle">
-            {props.name}
+      {(moment(currentDate).format("MM/DD/YYYY"))}&nbsp;-&nbsp;{props.name}
         </Typography>
       </Toolbar>
       <Table className={classes.table}>
@@ -58,15 +61,27 @@ function Meal(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.id}>
+          {currentNutritionEntry.map(meal => {
+           if (meal.mealName == props.name) {
+             return (
+              meal.foods.map(row => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.foodName}
+                  </TableCell>
+                  <TableCell align="right">{row.fat * 9 + row.carbohydrates * 4 + row.protein * 4}</TableCell>
+                </TableRow>
+                ))
+             )
+            }
+            /*<TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
               <TableCell align="right">{row.calories}</TableCell>
 
-            </TableRow>
-          ))}
+            </TableRow>*/
+          })}
         </TableBody>
       </Table>
     </Paper>

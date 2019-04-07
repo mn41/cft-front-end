@@ -75,17 +75,6 @@ function Navigator(props) {
                 <ListItemText primary={'Weight Measurements'} />
             </ListItem>
         </List>
-        <Divider />
-        <List>
-            <ListItem button key={'About'} component={NavLink} to="/about">
-              <ListItemIcon><AboutIcon /></ListItemIcon>
-              <ListItemText primary={'About'} />
-            </ListItem>
-            <ListItem button key={'Settings'} component={NavLink} to="/settings">
-              <ListItemIcon><SettingsIcon /></ListItemIcon>
-              <ListItemText primary={'Settings'} />
-            </ListItem>
-        </List>
     </Drawer>
     </div>
     )

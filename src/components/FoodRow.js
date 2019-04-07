@@ -36,7 +36,7 @@ function FoodRow(props){
                 label="Food Name"
                 className={classes.field}
                 value={props.food.foodName}
-                onChange={e => props.onUpdateFood(props.food.id, {foodName: e.target.value})}
+                onChange={e => props.onUpdateFood(props.food.shortID, {foodName: e.target.value})}
                 margin="normal"
             />
             </Grid>
@@ -47,20 +47,20 @@ function FoodRow(props){
                 label="Meal Name"
                 className={classes.field}
                 value={props.food.mealName}
-                onChange={e => props.onUpdateFood(props.food.id, {mealName: e.target.value})}
+                onChange={e => props.onUpdateFood(props.food.shortID, {mealName: e.target.value})}
 
                 margin="normal"
                 >
-                <MenuItem key="breakfast" value="breakfast">
+                <MenuItem key="Breakfast" value="Breakfast">
                     Breakfast
                 </MenuItem>
-                <MenuItem key="lunch" value="lunch">
+                <MenuItem key="Lunch" value="Lunch">
                     Lunch
                 </MenuItem>
-                <MenuItem key="dinner" value="dinner">
+                <MenuItem key="Dinner" value="Dinner">
                     Dinner
                 </MenuItem>
-                <MenuItem key="other" value="other">
+                <MenuItem key="Other" value="Other">
                     Other
                 </MenuItem>
                 </TextField>
@@ -70,7 +70,7 @@ function FoodRow(props){
                 label="Fat (g)"
                 className={classes.field}
                 value={props.food.fat}
-                onChange={e => props.onUpdateFood(props.food.id, {fat: e.target.value})}
+                onChange={e => props.onUpdateFood(props.food.shortID, {fat: e.target.value})}
                 margin="normal"
             />
             </Grid>
@@ -79,7 +79,7 @@ function FoodRow(props){
                 label="Carbohydrates (g)"
                 className={classes.field}
                 value={props.food.carbohydrates}
-                onChange={e => props.onUpdateFood(props.food.id, {carbohydrates: e.target.value})}
+                onChange={e => props.onUpdateFood(props.food.shortID, {carbohydrates: e.target.value})}
                 margin="normal"
             />
             </Grid>
@@ -88,7 +88,7 @@ function FoodRow(props){
                 label="Protein (g)"
                 className={classes.field}
                 value={props.food.protein}
-                onChange={e => props.onUpdateFood(props.food.id, {protein: e.target.value})}
+                onChange={e => props.onUpdateFood(props.food.shortID, {protein: e.target.value})}
                 margin="normal"
             />
             </Grid>
@@ -98,7 +98,7 @@ function FoodRow(props){
             </IconButton>
             </Grid>
             <Grid item>
-            <IconButton aria-label="Delete" onClick={() => props.onDeleteFood(props.food.id)}>
+            <IconButton aria-label="Delete" onClick={() => props.onDeleteFood(props.food.shortID)}>
                 <DeleteIcon />
             </IconButton>
             </Grid>

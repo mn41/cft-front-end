@@ -52,7 +52,6 @@ class TitleBar extends React.Component {
   render() {
     const { classes } = this.props;
     const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
 
     return (
       <div>
@@ -61,39 +60,6 @@ class TitleBar extends React.Component {
           <Typography variant="h5" color="inherit">
             Complete Fitness Tracker
           </Typography>
-            <section className={classes.rightToolbar}>
-                <div>
-                    <IconButton color="inherit" aria-label="Edit" component={NavLink} to="/about">
-                        <AboutIcon />
-                    </IconButton>
-                    <IconButton
-                    aria-owns={open ? 'menu-appbar' : undefined}
-                    aria-haspopup="true"
-                    onClick={this.handleMenu}
-                    color="inherit"
-
-                    >
-                    <AccountCircle />
-                    </IconButton>
-                    <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',    
-                        horizontal: 'right',
-                    }}
-                    open={open}
-                    onClose={this.handleClose}
-                    >
-                    <MenuItem onClick={this.handleClose}>Settings</MenuItem>
-                    <MenuItem onClick={this.handleClose}>Log Out</MenuItem>
-                    </Menu>
-                </div>
-              </section>
           </Toolbar>
         </AppBar>
       </div>
