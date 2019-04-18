@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Navigator from './components/Navigator.js';
 import TitleBar from './components/TitleBar';

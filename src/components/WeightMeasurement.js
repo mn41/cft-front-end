@@ -3,16 +3,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Divider } from '@material-ui/core';
-//import WeightMeasurementDate from './WeightMeasurementDate'
-import {NavLink} from "react-router-dom";
 import Button from '@material-ui/core/Button'
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit'
-import { blue, grey, lightBlue } from '@material-ui/core/colors';
 import TextField from '@material-ui/core/TextField';
 import WeightMeasurementGraph from './WeightMeasurementGraph';
 import moment from 'moment';
-import axios from 'axios'
 import { URL_STRING } from '../config.js'
 
 
@@ -62,7 +56,7 @@ class WeightMeasurement extends React.Component {
             fetch(URL_STRING + 'weightMeasurements/add/' + this.props.id, {
                 method: 'post',
                 body: JSON.stringify({
-                    weight: new Number(this.state.newMeasurement),
+                    weight: Number(this.state.newMeasurement),
                     date: moment(this.state.date).format("YYYY/MM/DD")
                 }),
                 headers: {
@@ -73,7 +67,7 @@ class WeightMeasurement extends React.Component {
             .then((res) => {
 
 
-                if (res.status == '201'){
+                if (res.status === 201){
                     const newMeasurements = this.state.currentMeasurements.concat(measurement)
                     this.setState({ 
                         currentMeasurements: newMeasurements

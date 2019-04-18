@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Divider } from '@material-ui/core';
-import {NavLink} from "react-router-dom";
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
@@ -199,7 +198,7 @@ class NutritionEntry extends React.Component {
         })
         .then((res) => {
             console.log(res.status)
-            if (res.status == '201'){
+            if (res.status === 201){
                 this.setState({ 
                     searchDate: this.state.formDate
                 })
@@ -223,7 +222,7 @@ class NutritionEntry extends React.Component {
 
         var mealArray = groupBy(this.state.foods.map(({id, ...noID}) => noID), 'mealName')
         console.log(mealArray)
-        if(this.state.formType == "Add Nutrition Entry") {
+        if(this.state.formType === "Add Nutrition Entry") {
             console.log(JSON.stringify({
                 foods: mealArray
             }))
@@ -250,7 +249,7 @@ class NutritionEntry extends React.Component {
                 })
                 .then((res) => {
                     console.log(res.status)
-                    if (res.status == '204'){
+                    if (res.status === 204){
                         this.setState({ 
                             searchDate: this.state.formDate
                         })
@@ -282,7 +281,7 @@ class NutritionEntry extends React.Component {
         <Divider/>
         <br/>
         <Grid container spacing={24} justify="space-around" alignItems="center">
-            {this.state.currentNutritionEntry.length == 0 ?
+            {this.state.currentNutritionEntry.length === 0 ?
             <Grid item>
                 <Button variant="contained" size="large" color="primary" className={classes.button} onClick={this.loadRecentNutritionEntry}>  
                     <LoadIcon/>
