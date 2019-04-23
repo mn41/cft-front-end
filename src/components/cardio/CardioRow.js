@@ -59,7 +59,7 @@ function ExerciseRow(props){
                 label="Time (minutes)"
                 className={classes.field}
                 value={props.exercise.elapsedTime}
-                onChange={e => props.onUpdateExercise(props.exercise.shortID, {weight: e.target.value})}
+                onChange={e => props.onUpdateExercise(props.exercise.shortID, {elapsedTime: e.target.value})}
                 margin="normal"
             />
             </Grid>

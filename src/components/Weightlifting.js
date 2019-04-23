@@ -118,8 +118,8 @@ class Weightlifting extends React.Component {
         this.setState({formDate: formDate})
     }
 
-    handleFormWorkoutNameChange = (formDate) => {
-        this.setState({formDate: formDate})
+    handleFormWorkoutNameChange = (formWorkoutName) => {
+        this.setState({formWorkoutName: formWorkoutName})
     }
 
     onClearExercises = () => {
