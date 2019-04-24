@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Divider } from '@material-ui/core';
-import {NavLink} from "react-router-dom";
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import LoadIcon from '@material-ui/icons/CloudDownload'
 import WeightliftingTable from './WeightliftingTable'
-import { blue, grey, lightBlue } from '@material-ui/core/colors';
-import axios from 'axios';
 import moment from 'moment';
 import { URL_STRING } from '../config.js'
 import WorkoutForm from './WorkoutForm'

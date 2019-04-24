@@ -5,7 +5,7 @@ import TitleBar from './components/TitleBar';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import Home from './components/Home.js'
 import './App.css';
-import Cardio from "./components/cardio/Cardio.js"
+import Cardio from "./components/Cardio.js"
 import Weightlifting from './components/Weightlifting.js';
 import NutritionEntry from './components/NutritionEntry.js';
 import WeightMeasurement from './components/WeightMeasurement.js';

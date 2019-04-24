@@ -10,8 +10,6 @@ import WeightliftingIcon from '@material-ui/icons/FitnessCenter';
 import CardioIcon from '@material-ui/icons/DirectionsRun';
 import WeightMeasurementIcon from '@material-ui/icons/Timeline';
 import NutritionIcon from '@material-ui/icons/Restaurant';
-import SettingsIcon from '@material-ui/icons/Settings';
-import AboutIcon from '@material-ui/icons/Info';
 import HomeIcon from '@material-ui/icons/Home';
 import {NavLink} from "react-router-dom";
 

@@ -10,7 +10,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import LoadIcon from '@material-ui/icons/CloudDownload'
 import CardioTable from './CardioTable'
 import moment from 'moment';
-import { URL_STRING } from '../../config.js'
+import { URL_STRING } from '../config.js'
 import CardioForm from './CardioForm'
 import shortid from 'shortid';
 
